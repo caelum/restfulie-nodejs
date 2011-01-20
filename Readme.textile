@@ -1,0 +1,29 @@
+h1. Restfulie Javascript - server
+
+"Visit the official website":http://restfulie.caelumobjects.com for <b>documentation</b>, videos and other versions. 
+
+
+h1. Team
+
+Restfulie Javascript was created by "Carlos Alberto":http://progdicas.blogspot.com and has received contributions from:
+
+"Guilherme Silveira":http://restfulie.caelumobjects.com (Restfulie project leader)
+
+h1. How to build for development
+
+First you got to install "nodejs":http://nodejs.org/#download
+
+For the next steps you'll need "npm":http://npmjs.org/
+
+For the next steps you'll need "nodeunit":http://github.com/caolan/nodeunit
+
+h2. Testing
+
+To run your tests execute:
+
+<pre>nodeunit allTests.js</pre>
+
+h1. License
+
+Restfulie is licensed under the Apache License, Version 2.0.
+
