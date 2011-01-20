@@ -24,11 +24,11 @@ function RouteExecutor(routeManager){
   
   function bindRequestParams(data,logic){
     var args = argumentNames(logic);
-    var executer = "";
+    var executer = "route.logic,";
     for (x in args)
       executer+= "request.data['"+args[x]+"'],"
     executer = executer.substr(0,executer.length-1);
-    executer = "retorno = route.logic.call(route.logic,"+executer+")";
+    executer = "retorno = route.logic.call("+executer+")";
     return executer;
   }
 }

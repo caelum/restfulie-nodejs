@@ -47,6 +47,30 @@ module.exports = testCase({
       assert.equal(response.body, 'retorno');
       
       assert.done();
+    },
+    
+    'should invoke chain':function(assert){
+      request = {};
+      response = {};
+      
+      rm.find = function(){
+        return {
+          uri:"/services/{client.id}",
+          method:"GET",
+          logic: function(){
+          }
+        };
+      }
+      chainInvoked = false;
+      chain = {doChain : function(){
+        chainInvoked = true;
+      }};
+
+      re.execute(request,response,chain);
+
+      assert.ok(chainInvoked)
+      
+      assert.done();
     }
     
 });
