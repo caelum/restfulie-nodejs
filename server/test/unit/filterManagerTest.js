@@ -20,17 +20,17 @@ module.exports = testCase({
     'should execute filters' : function (assert){
       var request = {}, response = {}, numFiltersExecuted = 0, executedFor = [];
      
-      fm.register(function(request,response,chain){
+      fm.register({ execute : function(request,response,chain){
         numFiltersExecuted++;
         executedFor.push('request cookie');
         chain.doChain(request,response);
-      });
+      }});
       
-      fm.register(function(request,response,chain){
+      fm.register({execute:function(request,response,chain){
         numFiltersExecuted++;
         executedFor.push('data reader');
         chain.doChain(request,response);
-      });
+      }});
       
       fm.execute(request,response);
       

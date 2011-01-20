@@ -23,10 +23,10 @@ function FilterManager(){
       doChain: function(request,response){
         index++;
         if (index < filters.length)
-          filters[index](request,response,chain);
+          filters[index].execute(request,response,chain);
       }
     };
     
-    filters[index](request,response,chain);
+    filters[index].execute(request,response,chain);
   }
 }
