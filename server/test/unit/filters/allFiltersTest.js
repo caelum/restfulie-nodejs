@@ -1,5 +1,7 @@
 var routeExecutorTest = require("./routeExecutorTest")
-var dataReaderTest = require("./dataReaderTest")
+var pathDataReaderTest = require("./pathDataReaderTest")
+var queryStringDataReaderTest = require("./queryStringDataReaderTest")
 
 exports['routeExecutorTest'] = routeExecutorTest;
-exports['dataReaderTest'] = dataReaderTest;
+exports['pathDataReaderTest'] = pathDataReaderTest;
+exports['queryStringDataReaderTest'] = queryStringDataReaderTest;
