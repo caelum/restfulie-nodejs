@@ -18,8 +18,10 @@ module.exports = testCase({
         return {method:"GET",uri:"/services/{client.id}/{client.name}"};
       };
       
+      invoked = false;
       chain = {
         doChain : function(request,response){
+        invoked = true;
         }
       };
 
@@ -31,7 +33,7 @@ module.exports = testCase({
       assert.ok(request.data.client.name !=null);
       assert.equal(request.data.client.id,1);
       assert.equal(request.data.client.name,'carlos');
-
+      assert.ok(invoked);
       assert.done();
     },
     

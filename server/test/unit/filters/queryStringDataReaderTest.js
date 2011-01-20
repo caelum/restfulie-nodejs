@@ -12,9 +12,11 @@ module.exports = testCase({
     
     'should read data querystring path param at request': function (assert) {
       request = {method:"GET",url:"/services?client.id=1&client.name=carlos"};
-      
+
+      invoked = false;
       chain = {
         doChain : function(request,response){
+          invoked = true;
         }
       };
 
@@ -26,7 +28,7 @@ module.exports = testCase({
       assert.ok(request.data.client.name !=null);
       assert.equal(request.data.client.id,1);
       assert.equal(request.data.client.name,'carlos');
-
+      assert.ok(invoked);
       assert.done();
     }
 });
