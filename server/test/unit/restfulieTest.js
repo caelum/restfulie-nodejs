@@ -48,11 +48,11 @@ module.exports = testCase({
       assert.done();
     },
     
-    /*
     'should listen server' : function(assert){
       executed = false;
       server.registerRoute("GET","/services",function(){
         executed = true;
+        return {client:{id:1,name:"carlos"}}; 
       });
       server.listen(3000,"127.0.0.1");
       
@@ -62,11 +62,17 @@ module.exports = testCase({
         var request = client.request('GET', '/services',{'content-type':'application/json'});
         request.end();
         request.on('response', function (response) {
-          assert.ok(executed);
-          server.close();
-          assert.done();
+          response.setEncoding('utf8')
+          response.on('data',function(data){
+            assert.ok(executed);
+            resource = JSON.parse(data);
+            assert.equal(resource.client.id,1);
+            assert.equal(resource.client.name,'carlos');
+            server.close();
+            assert.done();
+          });
         });
-      },2000);
+      },1);
     }
-    */
+    
 });

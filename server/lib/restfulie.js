@@ -7,8 +7,8 @@ var contentNegotiation = require("./filters/contentNegotiation")
 var pathDataReader = require("./filters/pathDataReader")
 var queryStringDataReader= require("./filters/queryStringDataReader")
 var routeExecutor = require("./filters/routeExecutor")
+var processResponse = require("./filters/processResponse")
 var JSONConverter = require("./converters/JSONConverter")
-
 
 exports.createServer = function(){
   return new Restfulie();
@@ -22,7 +22,7 @@ function Restfulie(){
   var server=null;
   
   convertersManager.register("application/json",JSONConverter.create());
-  
+  filtersManager.register(processResponse.create());
   filtersManager.register(bodyDataReader.create());
   filtersManager.register(contentNegotiation.create(convertersManager));
   filtersManager.register(queryStringDataReader.create());
@@ -80,6 +80,10 @@ function Restfulie(){
       filtersManager.execute(request,response);
     });
     server.listen(port,ip);
+  }
+  
+  this.close = function(){
+    server.close();
   }
 
 }

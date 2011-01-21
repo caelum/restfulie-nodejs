@@ -6,11 +6,28 @@ function RouteExecutor(routeManager){
 
   this.execute = function(request,response,chain){
     route = routeManager.find(request.method,request.url);
+    
+    if (route == null) {
+      response.data = "";
+      response.statusCode = 404;
+      chain.doChain(request,response);
+      return;
+    }
+    response.logicalName = functionName(route.logic);
     executer = bindRequestParams(request.data,route.logic);
     var retorno;
-    eval(executer);
-    response.data = retorno;
+    try {
+      eval(executer);
+      response.data = retorno;
+      response.statusCode = 200;
+    } catch (e){
+      console.log(e);
+      response.data = "";
+      response.statusCode = 500;
+    }
+
     chain.doChain(request,response);
+    
   }
   
   // function discovery params of logic
@@ -21,6 +38,13 @@ function RouteExecutor(routeManager){
         return names.length == 1 && !names[0] ? [] : names;
   }
   
+  
+
+function functionName(fn){
+  var name=/\W*function\s+([\w\$]+)\(/.exec(fn);
+  if(!name)return '';
+  return name[1];
+}
   
   function bindRequestParams(data,logic){
     var args = argumentNames(logic);

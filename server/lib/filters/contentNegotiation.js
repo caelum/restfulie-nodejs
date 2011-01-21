@@ -12,8 +12,14 @@ function ContentNegotiation(converterManager){
     object = converter.toObject(request.body);
 
     enrichContent(request.data,object);
-
     chain.doChain(request,response);
+
+    if (response.headers == null)
+      response.headers = {};
+  
+    if (response.headers['content-type'] == null)
+      response.headers['content-type'] = request.headers['content-type'];
+
     response.body = converter.toString(response.data);
   }
 }
