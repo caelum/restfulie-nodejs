@@ -55,4 +55,23 @@ module.exports = testCase({
       assert.done();
     },
     
+    
+    'should return response is content-type not defined or not supported' : function(assert){
+      chain = {
+        doChain : function(request,response){
+        }
+      };
+      request = {
+        headers : {}
+      };
+      response ={};
+      
+      converterManager.getConverter = function(format){
+      }
+      
+      cn.execute(request,response,chain);
+      assert.equal(response.statusCode,500);
+      assert.equal(response.body,"content-type is not informed");
+      assert.done();
+    }
 });

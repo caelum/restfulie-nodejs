@@ -13,8 +13,15 @@ function ConverterManager(){
   }
   
   this.getConverter = function(format){
+    
+    if (!format || format == "") 
+      return null;
+    
+    format = format.split(";")[0];
     for (c in converters)
       if (converters[c].format == format) 
         return converters[c];
+        
+    return null;
   }
 }

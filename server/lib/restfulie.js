@@ -2,7 +2,6 @@ var routeManager = require("./routeManager")
 var http = require("http")
 var filterManager = require("./filterManager")
 var converterManager = require("./converterManager")
-var bodyDataReader = require("./filters/bodyDataReader")
 var contentNegotiation = require("./filters/contentNegotiation")
 var pathDataReader = require("./filters/pathDataReader")
 var queryStringDataReader= require("./filters/queryStringDataReader")
@@ -22,8 +21,8 @@ function Restfulie(){
   var server=null;
   
   convertersManager.register("application/json",JSONConverter.create());
+  
   filtersManager.register(processResponse.create());
-  filtersManager.register(bodyDataReader.create());
   filtersManager.register(contentNegotiation.create(convertersManager));
   filtersManager.register(queryStringDataReader.create());
   filtersManager.register(pathDataReader.create(routesManager));
@@ -58,7 +57,7 @@ function Restfulie(){
       this.registerRoute("POST","/"+baseuri,object_resource.create);
 
     if (object_resource.update != null)
-      this.registerRoute("PUT","/"+baseuri,object_resource.update);
+      this.registerRoute("PUT","/"+baseuri+"/{id}",object_resource.update);
       
   }
   
@@ -77,7 +76,19 @@ function Restfulie(){
   
   this.listen = function(port,ip){
     server = http.createServer(function(request,response){
-      filtersManager.execute(request,response);
+    
+      if ("POST,PUT".indexOf(request.method) != -1){
+        request.setEncoding('utf8');
+        request.on('data',function(data){
+          request.body = data;
+          filtersManager.execute(request,response);
+        });
+      } else {
+        request.body = "";
+        filtersManager.execute(request,response);
+      }
+    
+
     });
     server.listen(port,ip);
   }

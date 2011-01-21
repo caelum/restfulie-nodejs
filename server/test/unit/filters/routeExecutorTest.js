@@ -71,6 +71,56 @@ module.exports = testCase({
       assert.ok(chainInvoked)
       
       assert.done();
+    },
+    
+    'should return 404 statusCode for logic returning is null of request method get' : function(assert){
+      request = {method:"GET"};
+      response = {};
+      
+      rm.find = function(){
+        return {
+          uri:"/services/{client.id}",
+          method:"GET",
+          logic: function(){
+          }
+        };
+      }
+      chainInvoked = false;
+      chain = {doChain : function(){
+      }};
+
+      re.execute(request,response,chain);
+      assert.equal(response.statusCode,404);
+      assert.done();
+    },
+    
+    'should return 500 at logic of error' : function(assert){
+            request = {method:"GET"};
+      response = {};
+      
+      rm.find = function(){
+        return {
+          uri:"/services/{client.id}",
+          method:"GET",
+          logic: function(){
+            throw new Error("error");
+          }
+        };
+      }
+      chainInvoked = false;
+      chain = {doChain : function(){
+      }};
+      _console = console;
+      console = {log : function(){}};
+      
+      re.execute(request,response,chain);
+      
+      console = _console;
+      
+      assert.equal(response.statusCode,500);
+      assert.done();
     }
+    
+    
     
 });

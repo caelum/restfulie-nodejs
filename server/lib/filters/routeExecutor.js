@@ -7,6 +7,7 @@ function RouteExecutor(routeManager){
   this.execute = function(request,response,chain){
     route = routeManager.find(request.method,request.url);
     
+    
     if (route == null) {
       response.data = "";
       response.statusCode = 404;
@@ -19,9 +20,11 @@ function RouteExecutor(routeManager){
     try {
       eval(executer);
       response.data = retorno;
-      response.statusCode = 200;
+      response.statusCode =  200;
+      response.statusCode = retorno == null && request.method == "GET" ? 404 : 200;
     } catch (e){
-      console.log(e);
+      console.log(e.message);
+      console.log(e.stack);
       response.data = "";
       response.statusCode = 500;
     }

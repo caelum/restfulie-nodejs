@@ -6,6 +6,9 @@ function ProcessResponse(){
   this.execute = function(request,response,chain){
     chain.doChain(request,response);
     
+    if (response.headers == null)
+      response.headers = {};
+    
     if (response.logicalName == "create" && request.method == "PUT") {
       response.statusCode = 201;
       response.headers['location'] = "end";

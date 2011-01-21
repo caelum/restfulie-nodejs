@@ -32,5 +32,6 @@ module.exports = testCase({
       converter = cm.getConverter('application/json');
       assert.equal(converter,JSONConverter);
       assert.done();
-    }
+    },
+    
 });
