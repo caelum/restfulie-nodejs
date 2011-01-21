@@ -52,9 +52,4 @@ function isParam(part){
   return part.indexOf('{') == 0 && part.indexOf("}") == part.length-1;
 }
 
-function processQueryStringData(request){
-    path = urlUtils.parse(request.url,true);
-    for (q in path.query){
-      request.data[q] = path.query[q];
-    }
-}
+  

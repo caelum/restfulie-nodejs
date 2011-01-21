@@ -11,12 +11,18 @@ function ContentNegotiation(converterManager){
     converter = converterManager.getConverter(request.headers['content-type']);
     object = converter.toObject(request.body);
     
-    for (x in object){
-      request.data[x] = object[x];
-    }
+    enrichContent(request.data,object);
     
     chain.doChain(request,response);
   }
 }
 
 
+function enrichContent(data,objects){
+  for (x in objects){
+    if (data[x] == null || data[x]==undefined)
+      data[x] = objects[x];
+    else
+      enrichContent(data[x],objects[x]);
+  }
+}

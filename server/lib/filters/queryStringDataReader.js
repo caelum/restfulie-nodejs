@@ -15,8 +15,16 @@ function process(request){
   if (request.data == null)
      request.data = {};
   path = urlUtils.parse(request.url,true);
-  for (q in path.query){
-    request.data[q] = path.query[q];
+
+  enrichContent(request.data,path.query);
+}
+
+function enrichContent(data,objects){
+  for (x in objects){
+    if (data[x] == null || data[x]==undefined)
+      data[x] = objects[x];
+    else
+      enrichContent(data[x],objects[x]);
   }
 }
 
