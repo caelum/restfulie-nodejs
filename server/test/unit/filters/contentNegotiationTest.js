@@ -1,0 +1,50 @@
+var testCase = require('nodeunit').testCase;
+var contentNegotiation = require("../../../lib/filters/contentNegotiation")
+
+var cn;
+var converterManager;
+
+module.exports = testCase({
+    
+    setUp : function(callback){
+      converterManager = {};
+      cn = contentNegotiation.create(converterManager);
+      callback();
+    },
+    
+    'should allow content negotiation request': function (assert) {
+      request = {
+        headers:{
+          "content-type":"application/json;xsd=1"
+        },
+        body : '{"client":{"id":1,"name":"carlos"}}'
+      };
+      
+      invoked = false;
+      chain = {
+        doChain : function(request,response){
+        invoked = true;
+        }
+      };
+      
+      converterManager.getConverter = function(format){
+        return {
+          toObject : function(text){
+            return {client:{id:1,name:'carlos'}};
+          }
+        }
+      }
+      
+      cn.execute(request,response,chain);
+      assert.ok(request.data != null);
+      assert.ok(request.data.client != null);
+      assert.ok(request.data.client.id != null);
+      assert.ok(request.data.client.name != null);
+      assert.equal(request.data.client.id,1);
+      assert.equal(request.data.client.name,'carlos');
+      assert.ok(invoked);
+      
+      assert.done();
+    },
+    
+});
