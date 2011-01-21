@@ -44,7 +44,7 @@ module.exports = testCase({
 
       assert.ok(logicExecuted);
       assert.ok(chainInvoked)
-      assert.equal(response.body, 'retorno');
+      assert.equal(response.data, 'retorno');
       
       assert.done();
     },

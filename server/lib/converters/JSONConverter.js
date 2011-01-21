@@ -9,7 +9,7 @@ function JSONConverter(){
   }
   
   this.toString = function(object){
-    if (object == null ) return "";
+    if (!object || object == null ) return "";
     return JSON.stringify(object);
   }
 }

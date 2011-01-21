@@ -10,13 +10,13 @@ function ContentNegotiation(converterManager){
       
     converter = converterManager.getConverter(request.headers['content-type']);
     object = converter.toObject(request.body);
-    
+
     enrichContent(request.data,object);
-    
+
     chain.doChain(request,response);
+    response.body = converter.toString(response.data);
   }
 }
-
 
 function enrichContent(data,objects){
   for (x in objects){

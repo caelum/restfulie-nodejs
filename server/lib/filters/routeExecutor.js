@@ -9,7 +9,7 @@ function RouteExecutor(routeManager){
     executer = bindRequestParams(request.data,route.logic);
     var retorno;
     eval(executer);
-    response.body = retorno;
+    response.data = retorno;
     chain.doChain(request,response);
   }
   

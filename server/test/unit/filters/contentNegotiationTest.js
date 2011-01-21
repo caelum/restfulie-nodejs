@@ -30,10 +30,16 @@ module.exports = testCase({
       converterManager.getConverter = function(format){
         return {
           toObject : function(text){
-            return {client:{id:1,name:'carlos'}};
+            return JSON.parse(text);
+          },
+          toString : function(obj){
+            if (!obj || obj == null ) return "";
+            return JSON.stringify(obj);
           }
         }
       }
+      
+      response= {data:{name:'car'}};
       
       cn.execute(request,response,chain);
       assert.ok(request.data != null);
@@ -43,6 +49,8 @@ module.exports = testCase({
       assert.equal(request.data.client.id,1);
       assert.equal(request.data.client.name,'carlos');
       assert.ok(invoked);
+      assert.equal(response.body,'{"name":"car"}');
+      
       
       assert.done();
     },

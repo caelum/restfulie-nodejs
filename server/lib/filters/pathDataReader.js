@@ -10,7 +10,8 @@ function PathDataReader(routeManager){
     if (request.data == null)
       request.data = {};
 
-    processPathData(request,routeManager);
+    processPathData(request,routeManager,chain);
+    chain.doChain(request,response);
   }
   
 }
@@ -43,8 +44,6 @@ function processPathData(request,routeManager){
   url = url.substr(0,url.length-1);
   
   queryStringDataReader.process({"url":url,data : request.data});
-  
-  chain.doChain(request,response);
 }
 
 
